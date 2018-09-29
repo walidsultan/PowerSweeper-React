@@ -1,0 +1,27 @@
+{
+  "name": "powersweeper-react",
+  "version": "1.0.0",
+  "description": "Power Sweeper game",
+  "main": "index.js",
+  "scripts": {
+    "magic": "webpack"
+  },
+  "keywords": [
+    "Board",
+    "Game"
+  ],
+  "author": "Walid Sultan",
+  "license": "ISC",
+  "dependencies": {
+    "@types/react": "~16.4.14",
+    "@types/react-dom": "~16.0.8",
+    "react": "~16.5.2",
+    "react-dom": "~16.5.2",
+    "ts-loader": "~5.2.1",
+    "typescript": "~3.1.1",
+    "webpack": "~4.20.2"
+  },
+  "devDependencies": {
+    "webpack-cli": "~3.1.1"
+  }
+}

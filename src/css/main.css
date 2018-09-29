@@ -1,0 +1,22 @@
+.board{
+    
+}
+.board .frame{
+    margin: auto;
+    width: 1000px;
+    height: 1048px;
+    background-image: url(../images/interface.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.board .frame img {
+    width: 100%;
+    height: auto;
+}
+
+.block{
+    width:100px;
+    height:100px;
+    background-color: #333;
+}
