@@ -3,8 +3,8 @@ import Block from './block';
 import BoardInterface from '../interfaces/BoardInterface';
 export default class Board extends React.Component <BoardInterface,{}> {
 
-        handleClick(i) {
-                alert(i);
+        handleClick(left,top,value) {
+                alert(left +" : "+ top +" : "+ value);
               }
 
         handleRightClick(left,top){
@@ -19,7 +19,7 @@ export default class Board extends React.Component <BoardInterface,{}> {
                 for (let i = 0; i < levelWidth; i++) {
                         for (let j = 0; j < levelHeight; j++) {
                                 let value:number =  Math.floor(Math.random() * 3);
-                                puzzle.push(<Block Left={i} Top={j} Value={value} BlockSize={80} onClick={() => this.handleClick(value)} onContextMenu={() => this.handleRightClick(i,j)} />);
+                                puzzle.push(<Block Left={i} Top={j} Value={value} BlockSize={80} onClick={() => this.handleClick(i,j,value)} onContextMenu={() => this.handleRightClick(i,j)} />);
                         }
                 }
 
