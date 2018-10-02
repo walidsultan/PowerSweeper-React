@@ -10,9 +10,12 @@ export default class Block extends React.Component <BlockInterface,{}> {
             left: this.props.Left * this.props.BlockSize
           };
                 return (
-                        <button className="block" style={styles}>
-                                
-                          </button>
+                        <button 
+                        className="block" 
+                        style={styles} 
+                        onClick={() => this.props.onClick()} 
+                        onContextMenu= {(e) =>{e.preventDefault(); this.props.onContextMenu();} } 
+                        > {this.props.Value}</button>
                 );
         }
 }

@@ -2,6 +2,7 @@
     
 }
 .board .frame{
+    position: relative;
     margin: auto;
     width: 1000px;
     height: 1048px;
@@ -16,8 +17,15 @@
 }
 
 .block{
-    width:100px;
-    height:100px;
-    background-color: #333;
+    width:80px;
+    height:80px;
+    background-color: #666;
     position: absolute;
+}
+
+.board .frame .puzzle{
+    left: 85px;
+    top: 196px;
+    position: absolute;
+
 }

@@ -1,6 +1,8 @@
 export default interface BlockInterface{
     Left: number;
     Top: number;
-    Value: string;
+    Value: number;
     BlockSize:number;
+    onClick:any;
+    onContextMenu:any;
 }
