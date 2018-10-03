@@ -1,21 +1,21 @@
 import * as React from "react";
 import BlockInterface from "../interfaces/BlockInterface"
 import { CSSProperties } from "react";
-export default class Block extends React.Component <BlockInterface,{}> {
- 
-  
-        render() {
-          let styles:CSSProperties = {
-            top: this.props.Top * this.props.BlockSize,
-            left: this.props.Left * this.props.BlockSize
-          };
-                return (
-                        <button 
-                        className="block" 
-                        style={styles} 
-                        onClick={() => this.props.onClick()} 
-                        onContextMenu= {(e) =>{e.preventDefault(); this.props.onContextMenu();} } 
-                        > {this.props.Value}</button>
-                );
-        }
+export default class Block extends React.Component<BlockInterface, {}> {
+
+
+  render() {
+    let styles: CSSProperties = {
+      top: this.props.Top * this.props.BlockSize,
+      left: this.props.Left * this.props.BlockSize
+    };
+    return (
+      <button
+        className="block"
+        style={styles}
+        onClick={() => this.props.onClick()}
+        onContextMenu={(e) => { e.preventDefault(); this.props.onContextMenu(); }}
+      > {this.props.Mine}</button>
+    );
+  }
 }
