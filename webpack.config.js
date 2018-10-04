@@ -18,7 +18,8 @@ var config = {
         exclude: /node_modules/
       }
     ]
-  }
+  },
+  devtool: 'source-map'
 };
 
 module.exports = config;
