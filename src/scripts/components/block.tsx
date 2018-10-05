@@ -28,8 +28,5 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
   onLeftClick() {
     this.setState({IsClicked: true});
     this.props.onClick();
-    // if(value==0){
-    //   
-    // }
   }
 }

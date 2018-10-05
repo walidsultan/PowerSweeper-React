@@ -4,6 +4,7 @@ import BoardInterface from '../interfaces/BoardInterface';
 import BoardSettings from '../states/BoardState';
 import { MineType } from "../enums/mineType";
 import BoardState from "../states/BoardState";
+import BlockPointer from "../types/blockPointer";
 
 export default class Board extends React.Component<BoardInterface, BoardState > {
         private mines: number[][];
@@ -39,6 +40,29 @@ export default class Board extends React.Component<BoardInterface, BoardState > 
         }
 
         handleBlockClick(left, top) {
+              let surroundingBlocks:BlockPointer[]= new Array();
+              if(left>0){
+                surroundingBlocks.push({Position:{X: left,Y:top},Value:this.mines[left-1][top]});
+                if(top>0){
+                   surroundingBlocks.push({Position:{X: left-1,Y:top-1},Value: this.mines[left-1][top-1]});
+                   surroundingBlocks.push({Position:{X: left,Y:top-1},Value:this.mines[left][top-1]});
+                }
+                if(top<this.props.levelHeight-1){
+                   surroundingBlocks.push({Position:{X: left-1,Y:top+1},Value:this.mines[left-1][top+1]});
+                   surroundingBlocks.push({Position:{X: left,Y:top+1},Value:this.mines[left][top+1]});
+                }
+              }
+
+              if(left<this.props.levelWidth-1){
+                surroundingBlocks.push({Position:{X: left+1,Y:top},Value:this.mines[left+1][top]});
+                if(top>0){
+                   surroundingBlocks.push({Position:{X: left+1,Y:top-1},Value:this.mines[left+1][top-1]});
+                }
+                if(top<this.props.levelHeight-1){
+                   surroundingBlocks.push({Position:{X: left+1,Y:top+1},Value:this.mines[left+1][top+1]});
+                }
+              }
+
               let value = this.mines[left-1][top]+this.mines[left+1][top] + this.mines[left][top-1]+this.mines[left][top+1] +
                                 this.mines[left-1][top-1]+this.mines[left+1][top+1] + this.mines[left-1][top+1]+this.mines[left+1][top-1]      ;
               let values =this.state.Values;
@@ -47,7 +71,7 @@ export default class Board extends React.Component<BoardInterface, BoardState > 
         }
 
         handleRightClick(left, top) {
-                alert(left + " : " + top);
+               // alert(left + " : " + top);
         }
 
         AddMines(minesCount: number, mineType: MineType): void {
