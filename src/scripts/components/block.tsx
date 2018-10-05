@@ -21,12 +21,14 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
         style={styles}
         onClick={() => this.onLeftClick()}
         onContextMenu={(e) => { e.preventDefault(); this.props.onContextMenu(); }}
-      >{ (this.state.IsClicked && <div>{this.props.Value}</div>) || <div style={mineStyle} >{this.props.Mine}</div> }</button>
+      >{ <div>{this.props.Value }</div>}</button>
+
+      //{ (this.props.IsClicked && <div>{this.props.Value}</div>) || <div style={mineStyle} >{this.props.Mine}</div> }
     );
   }
 
   onLeftClick() {
-    this.setState({IsClicked: true});
+    //this.setState({IsClicked: true});
     this.props.onClick();
   }
 }

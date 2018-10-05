@@ -1,4 +1,5 @@
+import BlockInterface from "../interfaces/BlockInterface";
 
 export default class BoardState {
-     Values: number[][];
+     blocks: BlockInterface[][];
 }

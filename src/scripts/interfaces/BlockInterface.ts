@@ -9,4 +9,5 @@ export default interface BlockInterface {
     onContextMenu: any;
     HasMine: boolean;
     Mine:MineType;
+    IsClicked:boolean;
 }
