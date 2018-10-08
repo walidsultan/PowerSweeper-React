@@ -19,7 +19,6 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 this.AddMines(this.props.mediumMinesCount, MineType.Medium);
                 this.AddMines(this.props.bigMinesCount, MineType.Large);
 
-                console.log(this.mines);
                 this.initializeValues();
         }
 
@@ -114,7 +113,11 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
         handleRightClick(left, top) {
                 let blocksStates = this.state.blocks;
-                blocksStates[left][top].MarkedState++;
+                if (blocksStates[left][top].MarkedState == MineType.Large) {
+                        blocksStates[left][top].MarkedState = 0;
+                } else {
+                        blocksStates[left][top].MarkedState++;
+                }
                 this.setState({ blocks: blocksStates });
         }
 
