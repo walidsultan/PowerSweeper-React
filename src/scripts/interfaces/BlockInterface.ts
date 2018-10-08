@@ -10,4 +10,5 @@ export default interface BlockInterface {
     HasMine: boolean;
     Mine:MineType;
     IsClicked:boolean;
+    MarkedState:MineType;
 }

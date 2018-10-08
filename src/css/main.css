@@ -21,6 +21,8 @@
     height:79px;
     background-color: #666;
     position: absolute;
+    background-size: 79px 79px;
+    background-repeat: no-repeat;
 }
 
 .board .frame .puzzle{
@@ -32,4 +34,15 @@
 .block.clicked{
     background-color: #999;
     color:#111;
+}
+
+.block.bigMine{
+    background-image: url(../images/BigMine.png);
+    background-size: 75px 75px;
+}
+.block.mediumMine{
+    background-image: url(../images/MediumMine.png);
+}
+.block.smallMine{
+    background-image: url(../images/SmallMine.png);
 }

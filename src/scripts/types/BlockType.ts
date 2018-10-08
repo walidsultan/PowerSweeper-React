@@ -11,4 +11,5 @@ export default class BlockType implements BlockInterface {
     HasMine: boolean;
     Mine: MineType;
     IsClicked: boolean;
+    MarkedState:MineType=0;
 }

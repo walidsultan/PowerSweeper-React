@@ -14,13 +14,13 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         constructor(props) {
                 super(props)
                 this.initializeMines();
-                this.initializeValues();
-
                 //Mark mines
                 this.AddMines(this.props.smallMinesCount, MineType.Small);
                 this.AddMines(this.props.mediumMinesCount, MineType.Medium);
                 this.AddMines(this.props.bigMinesCount, MineType.Large);
+
                 console.log(this.mines);
+                this.initializeValues();
         }
 
         initializeValues() {
@@ -32,6 +32,8 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                                 blockStates[i][j] = new BlockType();
                                 blockStates[i][j].Left = i;
                                 blockStates[i][j].Top = j;
+                                blockStates[i][j].HasMine = this.mines[i][j] > 0 ? true : false;
+                                blockStates[i][j].Mine = this.mines[i][j] > 0 ? this.mines[i][j] : null;
                         }
                 }
                 this.state = { blocks: blockStates };
@@ -39,7 +41,6 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
         initializeMines() {
                 this.mines = this.getDoubleNumberArray(this.props.levelWidth, this.props.levelHeight);
-
         }
 
         getDoubleNumberArray(width: number, height: number) {
@@ -51,10 +52,13 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         }
 
         handleBlockClick(left: number, top: number) {
-                let blocksStates = this.state.blocks.slice();
-                this.setBlockValues(left, top, blocksStates);
-
-                this.setState({ blocks: blocksStates });
+                let blocksStates = this.state.blocks;
+                if (blocksStates[left][top].HasMine) {
+                        alert("You clicked on a mine");
+                } else {
+                        this.setBlockValues(left, top, blocksStates);
+                        this.setState({ blocks: blocksStates });
+                }
         }
 
         pushBlock(blocks: BlockPointer[], left: number, top: number) {
@@ -109,7 +113,9 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         }
 
         handleRightClick(left, top) {
-                // alert(left + " : " + top);
+                let blocksStates = this.state.blocks;
+                blocksStates[left][top].MarkedState++;
+                this.setState({ blocks: blocksStates });
         }
 
         AddMines(minesCount: number, mineType: MineType): void {
@@ -138,9 +144,10 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                                         onClick={() => this.handleBlockClick(block.Left, block.Top)}
                                         onContextMenu={() => this.handleRightClick(block.Left, block.Top)}
                                         Value={block.Value}
-                                        HasMine={this.mines[block.Left][block.Top] > 0 ? true : false}
-                                        Mine={this.mines[block.Left][block.Top] > 0 ? this.mines[block.Left][block.Top] : null}
-                                        IsClicked={block.IsClicked} />);
+                                        HasMine={block.HasMine}
+                                        Mine={block.Mine}
+                                        IsClicked={block.IsClicked}
+                                        MarkedState={block.MarkedState} />);
                         }
                 }
                 return puzzle;
