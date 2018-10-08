@@ -46,3 +46,7 @@
 .block.smallMine{
     background-image: url(../images/SmallMine.png);
 }
+
+.block.clickedMine{
+    background-color: #a51212;
+}

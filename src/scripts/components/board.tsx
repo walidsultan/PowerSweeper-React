@@ -60,12 +60,24 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         handleBlockClick(left: number, top: number) {
                 let blocksStates = this.state.blocks;
                 if (blocksStates[left][top].HasMine) {
+                        for(let row of this.state.blocks){
+                                for( let block of row){
+                                        if(!block.IsClicked){
+                                              this.setBlockValues(block.Left, block.Top, blocksStates);
+                                        }
+                                        if(block.HasMine){
+                                                block.MarkedState=block.Mine;
+                                                block.IsClicked=false;
+                                        }
+                                }
+                        }
+                        blocksStates[left][top].IsClicked=true;
                         alert("You clicked on a mine");
                 } else {
                         blocksStates[left][top].MarkedState=0;
                         this.setBlockValues(left, top, blocksStates);
-                        this.setState({ blocks: blocksStates });
                 }
+                this.setState({ blocks: blocksStates });
         }
 
         pushBlock(blocks: BlockPointer[], left: number, top: number) {

@@ -16,10 +16,10 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
       left: this.props.Left * this.props.BlockSize,
     };
 
-    let className: string = this.getClassName();
+    let classNames: [string] = this.getClassNames();
     return (
       <button
-        className={className}
+        className={classNames.join(' ')}
         style={styles}
         onClick={() => this.onLeftClick()}
         onContextMenu={(e) => { e.preventDefault(); this.props.onContextMenu(); }}
@@ -32,22 +32,26 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
     this.props.onClick();
   }
 
-  getClassName(): string {
-    let className = "block";
+  getClassNames(): [string] {
+    let classNames:[string] = ["block"];
     if (this.props.IsClicked) {
-      className += " clicked";
+      classNames.push("clicked");
+    }
+
+    if (this.props.IsClicked && this.props.HasMine) {
+      classNames.push("clickedMine");
     }
     switch (this.props.MarkedState) {
       case MineType.Large:
-        className += " bigMine";
+        classNames.push("bigMine");
         break;
       case MineType.Medium:
-        className += " mediumMine";
+        classNames.push("mediumMine");
         break;
       case MineType.Small:
-        className += " smallMine";
+        classNames.push("smallMine");
         break;
     }
-    return className;
+    return classNames;
   }
 }
