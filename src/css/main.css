@@ -17,8 +17,8 @@
 }
 
 .block{
-    width:80px;
-    height:80px;
+    width:79px;
+    height:79px;
     background-color: #666;
     position: absolute;
 }
@@ -28,4 +28,8 @@
     top: 196px;
     position: absolute;
 
+}
+.block.clicked{
+    background-color: #999;
+    color:#111;
 }

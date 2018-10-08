@@ -24,12 +24,14 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         }
 
         initializeValues() {
-                let blockStates:BlockType[][] = [];
+                let blockStates: BlockType[][] = [];
 
-                for(let i=0;i<this.props.levelWidth;i++){
-                        blockStates[i]=[];
-                        for(let j=0;j<this.props.levelHeight;j++){
-                            blockStates[i][j]=new BlockType();
+                for (let i = 0; i < this.props.levelWidth; i++) {
+                        blockStates[i] = [];
+                        for (let j = 0; j < this.props.levelHeight; j++) {
+                                blockStates[i][j] = new BlockType();
+                                blockStates[i][j].Left = i;
+                                blockStates[i][j].Top = j;
                         }
                 }
                 this.state = { blocks: blockStates };
@@ -50,55 +52,60 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
         handleBlockClick(left: number, top: number) {
                 let blocksStates = this.state.blocks.slice();
-                // blocksStates[0][0].Value=67;
-                // blocksStates[0][0].IsClicked=true;
-               this.setBlockValues(left, top, blocksStates);
+                this.setBlockValues(left, top, blocksStates);
 
                 this.setState({ blocks: blocksStates });
+        }
+
+        pushBlock(blocks: BlockPointer[], left: number, top: number) {
+                if (!this.state.blocks[left][top].IsClicked) {
+                        blocks.push({ Position: { X: left, Y: top }, Value: this.mines[left][top] });
+                }
         }
 
         setBlockValues(left: number, top: number, blocksStates: BlockType[][]) {
                 let surroundingBlocks: BlockPointer[] = new Array();
                 if (left > 0) {
-                        surroundingBlocks.push({ Position: { X: left, Y: top }, Value: this.mines[left - 1][top] });
+                        this.pushBlock(surroundingBlocks, left - 1, top);
                         if (top > 0) {
-                                surroundingBlocks.push({ Position: { X: left - 1, Y: top - 1 }, Value: this.mines[left - 1][top - 1] });
+                                this.pushBlock(surroundingBlocks, left - 1, top - 1);
                         }
                         if (top < this.props.levelHeight - 1) {
-                                surroundingBlocks.push({ Position: { X: left - 1, Y: top + 1 }, Value: this.mines[left - 1][top + 1] });
+                                this.pushBlock(surroundingBlocks, left - 1, top + 1);
                         }
                 }
 
                 if (left < this.props.levelWidth - 1) {
-                        surroundingBlocks.push({ Position: { X: left + 1, Y: top }, Value: this.mines[left + 1][top] });
+                        this.pushBlock(surroundingBlocks, left + 1, top);
                         if (top > 0) {
-                                surroundingBlocks.push({ Position: { X: left + 1, Y: top - 1 }, Value: this.mines[left + 1][top - 1] });
+                                this.pushBlock(surroundingBlocks, left + 1, top - 1);
                         }
                         if (top < this.props.levelHeight - 1) {
-                                surroundingBlocks.push({ Position: { X: left + 1, Y: top + 1 }, Value: this.mines[left + 1][top + 1] });
+                                this.pushBlock(surroundingBlocks, left + 1, top + 1);
                         }
                 }
 
                 if (top > 0) {
-                        surroundingBlocks.push({ Position: { X: left, Y: top - 1 }, Value: this.mines[left][top - 1] });
+                        this.pushBlock(surroundingBlocks, left, top - 1);
                 }
 
                 if (top < this.props.levelHeight - 1) {
-                        surroundingBlocks.push({ Position: { X: left, Y: top + 1 }, Value: this.mines[left][top + 1] });
+                        this.pushBlock(surroundingBlocks, left, top + 1);
                 }
 
                 let value: number = 0;
                 for (let block of surroundingBlocks) {
                         value += block.Value;
                 }
-                if(value==0){
-                        for(let block of surroundingBlocks ){
-                                this.setBlockValues(block.Position.X, block.Position.Y,blocksStates);
+
+                blocksStates[left][top].IsClicked = true;
+                blocksStates[left][top].Value = value;
+
+                if (value == 0) {
+                        for (let block of surroundingBlocks) {
+                                this.setBlockValues(block.Position.X, block.Position.Y, blocksStates);
                         }
                 }
-
-                blocksStates[left][top].Value = value;
-                blocksStates[left][top].IsClicked=true;
         }
 
         handleRightClick(left, top) {
@@ -122,18 +129,18 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 let puzzle = [];
 
                 //Add blocks
-                for (let i = 0; i < levelWidth; i++) {
-                        for (let j = 0; j < levelHeight; j++) {
+                for (let row of this.state.blocks) {
+                        for (let block of row) {
                                 puzzle.push(<Block
-                                        Left={i}
-                                        Top={j}
+                                        Left={block.Left}
+                                        Top={block.Top}
                                         BlockSize={80}
-                                        onClick={() => this.handleBlockClick(i, j)}
-                                        onContextMenu={() => this.handleRightClick(i, j)}
-                                        Value={this.state.blocks[i][j].Value}
-                                        HasMine={this.mines[i][j] > 0 ? true : false}
-                                        Mine={this.mines[i][j] > 0 ? this.mines[i][j] : null} 
-                                        IsClicked={false}/>);
+                                        onClick={() => this.handleBlockClick(block.Left, block.Top)}
+                                        onContextMenu={() => this.handleRightClick(block.Left, block.Top)}
+                                        Value={block.Value}
+                                        HasMine={this.mines[block.Left][block.Top] > 0 ? true : false}
+                                        Mine={this.mines[block.Left][block.Top] > 0 ? this.mines[block.Left][block.Top] : null}
+                                        IsClicked={block.IsClicked} />);
                         }
                 }
                 return puzzle;
