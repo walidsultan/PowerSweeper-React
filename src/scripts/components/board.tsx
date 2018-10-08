@@ -62,6 +62,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 if (blocksStates[left][top].HasMine) {
                         alert("You clicked on a mine");
                 } else {
+                        blocksStates[left][top].MarkedState=0;
                         this.setBlockValues(left, top, blocksStates);
                         this.setState({ blocks: blocksStates });
                 }
