@@ -4,7 +4,7 @@ import { MineType } from "../enums/mineType";
 export default class BlockType implements BlockInterface {
     Left: number;    
     Top: number;
-    Value: number=0;
+    Value: number;
     BlockSize: number;
     onClick: any;
     onContextMenu: any;

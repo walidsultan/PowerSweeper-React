@@ -13,6 +13,10 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
         constructor(props) {
                 super(props)
+                this.loadLevel();
+        }
+
+        loadLevel() {
                 this.initializeMines();
                 //Mark mines
                 this.AddMines(this.props.smallMinesCount, MineType.Small);
@@ -21,6 +25,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
                 this.initializeValues();
         }
+
 
         initializeValues() {
                 let blockStates: BlockType[][] = [];
@@ -33,6 +38,8 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                                 blockStates[i][j].Top = j;
                                 blockStates[i][j].HasMine = this.mines[i][j] > 0 ? true : false;
                                 blockStates[i][j].Mine = this.mines[i][j] > 0 ? this.mines[i][j] : null;
+                                blockStates[i][j].Value = 0;
+                                blockStates[i][j].IsClicked = false;
                         }
                 }
                 this.state = { blocks: blockStates };
@@ -118,7 +125,32 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 } else {
                         blocksStates[left][top].MarkedState++;
                 }
-                this.setState({ blocks: blocksStates });
+                this.setState({ blocks: blocksStates } , ()=> {this.handlePostRightClick();});
+               
+        }
+
+        handlePostRightClick(){
+                if (this.checkIfLevelIsSolved()) {
+                        alert("Congratulations on solving the level.");
+                        this.loadLevel();
+                        this.setState({ blocks: this.state.blocks });
+                }  
+        }
+
+        checkIfLevelIsSolved(): boolean {
+                let mismatch = false;
+                for (let row of this.state.blocks) {
+                        for (let block of row) {
+                                if (block.HasMine && block.MarkedState != block.Mine) {
+                                        mismatch = true;
+                                        break;
+                                }
+                        }
+                        if (mismatch) {
+                                break;
+                        }
+                }
+                return !mismatch;
         }
 
         AddMines(minesCount: number, mineType: MineType): void {
