@@ -1,0 +1,34 @@
+.block{
+    width:77px;
+    height:77px;
+    background-color: #C2C2C3;
+    position: absolute;
+    background-size: 76px 76px;
+    background-repeat: no-repeat;
+    border-radius:5px;
+    margin: 5px;
+    outline: none;
+
+    &.clicked{
+        background-color: #EBEBEB;
+        color:#8D8DFF;
+        font-weight: bold;
+    }
+    &.bigMine{
+        background-image: url('src/images/BigMine.png');
+        background-size: 75px 75px;
+    }
+    &.mediumMine{
+        background-image: url(src/images/MediumMine.png);
+    }
+    &.smallMine{
+        background-image: url(src/images/SmallMine.png);
+    }
+    &.clickedMine{
+        background-color: #a51212;
+    }
+    &:not(.clicked):not(.marked):hover{
+        background-color: #89A8C2;
+    }
+}
+    

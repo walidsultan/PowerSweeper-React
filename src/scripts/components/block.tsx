@@ -3,6 +3,8 @@ import BlockInterface from "../interfaces/BlockInterface"
 import { CSSProperties } from "react";
 import BlockState from "../states/BlockState";
 import { MineType } from "../enums/mineType";
+import "../../css/block.less";
+
 export default class Block extends React.Component<BlockInterface, BlockState> {
 
   constructor(props) {

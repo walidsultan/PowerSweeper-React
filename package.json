@@ -18,10 +18,16 @@
     "react": "~16.5.2",
     "react-dom": "~16.5.2",
     "ts-loader": "~5.2.1",
-    "typescript": "~3.1.1",
-    "webpack": "~4.20.2"
+    "typescript": "~3.1.1"
   },
   "devDependencies": {
-    "webpack-cli": "~3.1.1"
+    "css-loader": "^1.0.0",
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0",
+    "mini-css-extract-plugin": "^0.4.3",
+    "style-loader": "^0.23.1",
+    "typings-for-css-modules-loader": "^1.7.0",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2"
   }
 }

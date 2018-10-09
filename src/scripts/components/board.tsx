@@ -7,6 +7,8 @@ import BoardState from "../states/BoardState";
 import BlockPointer from "../types/blockPointer";
 import BlockInterface from "../interfaces/BlockInterface";
 import BlockType from "../types/BlockType";
+import "../../css/board.less";
+
 
 export default class Board extends React.Component<BoardInterface, BoardState> {
         private mines: number[][];

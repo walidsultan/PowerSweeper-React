@@ -16,7 +16,14 @@ var config = {
         test: /\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/
+      },
+      {
+        test: /\.less?$/,
+        use: ["style-loader", {loader:"css-loader", options:{ url:false}}, "less-loader"],
+        exclude: /node_modules/,
+        
       }
+     
     ]
   },
   devtool: 'source-map'
