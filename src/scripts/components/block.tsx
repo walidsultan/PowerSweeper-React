@@ -22,10 +22,17 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
         className={classNames.join(' ')}
         style={styles}
         onClick={() => this.onLeftClick()}
-        onContextMenu={(e) => { e.preventDefault(); this.props.onContextMenu(); }}
+        onContextMenu={(e) => this.onRightClick(e)}
         disabled={this.props.IsClicked}
       >{(this.props.IsClicked && this.props.Value > 0 && <div>{this.props.Value}</div>)}</button>
     );
+  }
+
+  onRightClick(e) {
+    e.preventDefault();
+    if (!this.props.IsClicked) {
+      this.props.onContextMenu();
+    }
   }
 
   onLeftClick() {
@@ -33,7 +40,7 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
   }
 
   getClassNames(): [string] {
-    let classNames:[string] = ["block"];
+    let classNames: [string] = ["block"];
     if (this.props.IsClicked) {
       classNames.push("clicked");
     }
@@ -51,6 +58,10 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
       case MineType.Small:
         classNames.push("smallMine");
         break;
+    }
+
+    if (this.props.MarkedState > 0) {
+      classNames.push("marked");
     }
     return classNames;
   }

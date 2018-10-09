@@ -11,18 +11,28 @@
     background-repeat: no-repeat;
 }
 
+.board .frame .puzzle{
+    background-color: #E1E1E1;
+    width: 80.9%;
+    height: 77.2%;
+    border-radius: 5px;
+}
+
 .board .frame img {
     width: 100%;
     height: auto;
 }
 
 .block{
-    width:79px;
-    height:79px;
-    background-color: #666;
+    width:77px;
+    height:77px;
+    background-color: #C2C2C3;
     position: absolute;
-    background-size: 79px 79px;
+    background-size: 76px 76px;
     background-repeat: no-repeat;
+    border-radius:5px;
+    margin: 5px;
+    outline: none;
 }
 
 .board .frame .puzzle{
@@ -32,7 +42,7 @@
 
 }
 .block.clicked{
-    background-color: #999;
+    background-color: #EBEBEB;
     color:#111;
 }
 
@@ -49,4 +59,8 @@
 
 .block.clickedMine{
     background-color: #a51212;
+}
+
+.block:not(.clicked):not(.marked):hover{
+    background-color: #89A8C2;
 }

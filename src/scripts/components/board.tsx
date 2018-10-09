@@ -128,6 +128,8 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                         for (let block of surroundingBlocks) {
                                 this.setBlockValues(block.Position.X, block.Position.Y, blocksStates);
                         }
+                }else{
+                        blocksStates[left][top].MarkedState=0;    
                 }
         }
 
