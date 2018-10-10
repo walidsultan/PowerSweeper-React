@@ -1,0 +1,27 @@
+.menu{
+    position: relative;
+        margin: auto;
+        width: 1600px;
+        height: 900px;
+        background-image: url(src/images/menu.png);
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        .itemsContainer{
+            top: 51%;
+            text-align: center;
+            margin: auto;
+            position: relative;
+            font-size: 40px;
+            .item{
+                display: inline;
+                clear: both;
+                &:hover{
+                    cursor: pointer;
+                }
+                &::before {
+                    content: "\A";
+                    white-space: pre;
+                  }
+            }
+        }
+}
