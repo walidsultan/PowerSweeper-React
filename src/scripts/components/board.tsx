@@ -14,7 +14,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         private mines: number[][];
         private isAnyBlockClicked = false;
         private blocks: BlockInterface[][];
-        private shouldCheckIfLevelIsSolved=false;
+        private shouldCheckIfLevelIsSolved = false;
 
         constructor(props) {
                 super(props)
@@ -47,7 +47,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                                 blockStates[i][j].IsClicked = false;
                         }
                 }
-                this.blocks= blockStates;
+                this.blocks = blockStates;
         }
 
         initializeMines() {
@@ -79,14 +79,13 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                                 }
                                 blocksStates[left][top].IsClicked = true;
                                 alert("You clicked on a mine");
-                        }else
-                        {
+                        } else {
                                 //make sure the first click is not a mine
-                                do{
-                                this.loadLevel();
-                                }while(this.blocks[left][top].HasMine )
-                                this.setState({ blocks: this.blocks }); 
-                                this.handleBlockClick(left,top) ;
+                                do {
+                                        this.loadLevel();
+                                } while (this.blocks[left][top].HasMine)
+                                this.setState({ blocks: this.blocks });
+                                this.handleBlockClick(left, top);
                         }
                 } else {
                         this.isAnyBlockClicked = true;
@@ -157,7 +156,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                         blocksStates[left][top].MarkedState++;
                 }
                 this.setState({ blocks: blocksStates });
-                this.shouldCheckIfLevelIsSolved=true;
+                this.shouldCheckIfLevelIsSolved = true;
         }
 
         checkIfLevelIsSolved(): boolean {
@@ -211,17 +210,17 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 return puzzle;
         }
 
-        componentDidUpdate(){
-                if(this.shouldCheckIfLevelIsSolved){
+        componentDidUpdate() {
+                if (this.shouldCheckIfLevelIsSolved) {
                         if (this.checkIfLevelIsSolved()) {
                                 setTimeout(() => {
                                         alert("Congratulations on solving the level.");
                                         this.loadLevel();
-                                        this.setState({ blocks: this.blocks });   
+                                        this.setState({ blocks: this.blocks });
                                 }, 200);
                         }
 
-                        this.shouldCheckIfLevelIsSolved=false;
+                        this.shouldCheckIfLevelIsSolved = false;
                 }
 
         }
@@ -230,8 +229,8 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 let puzzle = this.generatePuzzle(this.props.levelWidth, this.props.levelHeight);
 
                 return (
-                        <div className="board">
-                                <div className="frame">
+                        <div className="board" >
+                                <div className="frame" onContextMenu={(e) => e.preventDefault()}>
                                         <div className="puzzle">
                                                 {puzzle}
                                         </div>
