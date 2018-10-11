@@ -140,7 +140,6 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 blocksStates[left][top].IsClicked = true;
                 blocksStates[left][top].Value = value;
                 blocksStates[left][top].MarkedState = 0;
-                
                 if (value == 0) {
                         for (let block of surroundingBlocks) {
                                 this.setBlockValues(block.Position.X, block.Position.Y, blocksStates);
@@ -212,12 +211,14 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 return puzzle;
         }
 
-        componentDidMount(){
+        componentDidUpdate(){
                 if(this.shouldCheckIfLevelIsSolved){
                         if (this.checkIfLevelIsSolved()) {
-                                alert("Congratulations on solving the level.");
-                                this.loadLevel();
-                                this.setState({ blocks: this.blocks });
+                                setTimeout(() => {
+                                        alert("Congratulations on solving the level.");
+                                        this.loadLevel();
+                                        this.setState({ blocks: this.blocks });   
+                                }, 200);
                         }
 
                         this.shouldCheckIfLevelIsSolved=false;
