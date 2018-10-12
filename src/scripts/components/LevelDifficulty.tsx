@@ -16,10 +16,16 @@ export default class LevelDifficulty extends React.Component<LevelDifficultyInte
         return (
             <div className="levelDifficulty" style={styles}>
                 <div className="content">
-                    <span className="close" onClick={()=>this.props.onCloseClick()}>&times;</span>
-                    <button>Easy</button>
-                    <button>Meduim</button>
-                    <button>Hard</button>
+                    <div className="title"> 
+                        <span>Choose Level Difficulty</span>
+                        <span className="close" onClick={()=>this.props.onCloseClick()}>&times;</span>
+                    </div>
+
+                    <div className="buttons">
+                        <button>Easy</button>
+                        <button>Meduim</button>
+                        <button>Hard</button>
+                    </div>
                 </div>
             </div>
         );
