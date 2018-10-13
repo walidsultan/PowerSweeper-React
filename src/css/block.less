@@ -26,6 +26,7 @@
         background-color: #EBEBEB;
         color:#8D8DFF;
         font-weight: bold;
+        
     }
     &.bigMine{
         background-image: url('src/images/BigMine.png');
@@ -39,6 +40,10 @@
     }
     &.clickedMine{
         background-color: #a51212;
+        div
+        {
+            display: none;
+        }
     }
     &:not(.clicked):not(.marked):hover{
         background-color: #89A8C2;

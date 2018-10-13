@@ -25,7 +25,6 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
         style={styles}
         onClick={() => this.onLeftClick()}
         onContextMenu={(e) => this.onRightClick(e)}
-       // disabled={this.props.IsClicked}
       >{(this.props.IsClicked && this.props.Value > 0 && <div>{this.props.Value}</div>)}</div>
     );
   }
