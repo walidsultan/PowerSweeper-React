@@ -20,13 +20,13 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
 
     let classNames: [string] = this.getClassNames();
     return (
-      <button
+      <div
         className={classNames.join(' ')}
         style={styles}
         onClick={() => this.onLeftClick()}
         onContextMenu={(e) => this.onRightClick(e)}
-        disabled={this.props.IsClicked}
-      >{(this.props.IsClicked && this.props.Value > 0 && <div>{this.props.Value}</div>)}</button>
+       // disabled={this.props.IsClicked}
+      >{(this.props.IsClicked && this.props.Value > 0 && <div>{this.props.Value}</div>)}</div>
     );
   }
 
@@ -38,7 +38,9 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
   }
 
   onLeftClick() {
-    this.props.onClick();
+    if(!this.props.IsClicked){
+      this.props.onClick();
+    }
   }
 
   getClassNames(): [string] {
