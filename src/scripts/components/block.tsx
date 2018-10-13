@@ -7,8 +7,9 @@ import "../../css/block.less";
 
 export default class Block extends React.Component<BlockInterface, BlockState> {
 
-  private blockShrinkRatio:number= 0.9625;
-  private fontRatio:number= 0.2;
+  private blockShrinkRatio: number = 0.9625;
+  private fontRatio: number = 0.3;
+  private blockOffsetRatio: number = 12;
   constructor(props) {
     super(props)
 
@@ -16,11 +17,11 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
   }
   render() {
     let styles: CSSProperties = {
-      top: this.props.Top * this.props.BlockSize,
-      left: this.props.Left * this.props.BlockSize,
+      top: this.props.BlockSize / this.blockOffsetRatio + this.props.Top * this.props.BlockSize,
+      left: this.props.BlockSize / this.blockOffsetRatio + this.props.Left * this.props.BlockSize,
       width: this.props.BlockSize * this.blockShrinkRatio,
-      height:this.props.BlockSize * this.blockShrinkRatio,
-      backgroundSize:this.props.BlockSize * this.blockShrinkRatio,
+      height: this.props.BlockSize * this.blockShrinkRatio,
+      backgroundSize: this.props.BlockSize * this.blockShrinkRatio,
       fontSize: this.props.BlockSize * this.fontRatio
     };
 
@@ -43,7 +44,7 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
   }
 
   onLeftClick() {
-    if(!this.props.IsClicked){
+    if (!this.props.IsClicked) {
       this.props.onClick();
     }
   }

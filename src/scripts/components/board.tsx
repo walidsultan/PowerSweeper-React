@@ -16,14 +16,20 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         private boardState: BoardState;
         private shouldCheckIfLevelIsSolved = false;
         private isMineClicked: boolean = false;
+        private puzzleRef: any;
+        private frameRef: any;
 
         constructor(props) {
                 super(props)
-                this.boardState= new BoardState();
-                this.boardState.blockSize=this.calculateBlockSize();
+                this.boardState = new BoardState();
+
 
                 this.loadLevel();
-                
+
+                this.puzzleRef = React.createRef();
+                this.frameRef = React.createRef();
+
+                this.updateDimensions = this.updateDimensions.bind(this);
         }
 
         loadLevel() {
@@ -38,7 +44,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         }
 
         calculateBlockSize(): number {
-                return 80;
+                return (this.boardState.frameSize) / this.props.levelWidth * 0.8;
         }
 
 
@@ -247,26 +253,40 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                                 }
                         }, 200);
                 }
+
+        }
+
+        componentDidMount() {
+                window.addEventListener("resize", this.updateDimensions);
+               this.updateDimensions();
+        }
+
+        updateDimensions () {
+                //set frame width
+                this.boardState.frameSize= this.frameRef.current.offsetHeight * 1000 / 1048;
+
+                //Set block size
+                this.boardState.blockSize = this.calculateBlockSize();
+                let newState = Object.assign(this.boardState, { blockSize: this.boardState.blockSize });
+                this.setState(newState); 
         }
 
         render() {
                 let puzzle = this.generatePuzzle(this.props.levelWidth, this.props.levelHeight);
 
+                let frameStyle = {
+                        width: this.boardState.frameSize,
+                };
+
                 return (
                         <div className="board" >
-                                <input type="text" name="name" onChange={(e)=> this.test(e.target.value) }/>
-                                <div className="frame" onContextMenu={(e) => e.preventDefault()}>
-                                        <div className="puzzle">
+                                <div className="frame" style={frameStyle} ref={this.frameRef} onContextMenu={(e) => e.preventDefault()}>
+                                        <div className="puzzle" ref={this.puzzleRef}>
                                                 {puzzle}
                                         </div>
                                 </div>
                         </div>
                 );
-        }
-
-        test(e:string){
-                let newState= Object.assign(this.boardState,{blockSize: Number(e)});
-                this.setState(newState);
         }
 
 }
