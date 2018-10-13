@@ -7,6 +7,8 @@ import "../../css/block.less";
 
 export default class Block extends React.Component<BlockInterface, BlockState> {
 
+  private blockShrinkRatio:number= 0.9625;
+  private fontRatio:number= 0.2;
   constructor(props) {
     super(props)
 
@@ -16,6 +18,10 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
     let styles: CSSProperties = {
       top: this.props.Top * this.props.BlockSize,
       left: this.props.Left * this.props.BlockSize,
+      width: this.props.BlockSize * this.blockShrinkRatio,
+      height:this.props.BlockSize * this.blockShrinkRatio,
+      backgroundSize:this.props.BlockSize * this.blockShrinkRatio,
+      fontSize: this.props.BlockSize * this.fontRatio
     };
 
     let classNames: [string] = this.getClassNames();

@@ -13,13 +13,17 @@ import "../../css/board.less";
 export default class Board extends React.Component<BoardInterface, BoardState> {
         private mines: number[][];
         private isAnyBlockClicked = false;
-        private blocks: BlockInterface[][];
+        private boardState: BoardState;
         private shouldCheckIfLevelIsSolved = false;
         private isMineClicked: boolean = false;
 
         constructor(props) {
                 super(props)
+                this.boardState= new BoardState();
+                this.boardState.blockSize=this.calculateBlockSize();
+
                 this.loadLevel();
+                
         }
 
         loadLevel() {
@@ -31,6 +35,10 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 this.AddMines(this.props.bigMinesCount, MineType.Large);
                 console.log(this.mines);
                 this.initializeValues();
+        }
+
+        calculateBlockSize(): number {
+                return 80;
         }
 
 
@@ -49,7 +57,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                                 blockStates[i][j].IsClicked = false;
                         }
                 }
-                this.blocks = blockStates;
+                this.boardState.blocks = blockStates;
         }
 
         initializeMines() {
@@ -65,14 +73,14 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         }
 
         handleBlockClick(left: number, top: number) {
-                let blocksStates = this.blocks;
-                if (blocksStates[left][top].HasMine) {
+                let boardState = this.boardState;
+                if (boardState.blocks[left][top].HasMine) {
                         if (this.isAnyBlockClicked) {
                                 this.isMineClicked = true;
-                                for (let row of this.blocks) {
+                                for (let row of boardState.blocks) {
                                         for (let block of row) {
                                                 if (!block.IsClicked) {
-                                                        this.setBlockValues(block.Left, block.Top, blocksStates);
+                                                        this.setBlockValues(block.Left, block.Top, boardState.blocks);
                                                 }
                                                 if (block.HasMine) {
                                                         block.MarkedState = block.Mine;
@@ -80,28 +88,28 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                                                 }
                                         }
                                 }
-                                blocksStates[left][top].IsClicked = true;
+                                boardState.blocks[left][top].IsClicked = true;
 
                         } else {
                                 //make sure the first click is not a mine
                                 do {
                                         this.loadLevel();
-                                } while (this.blocks[left][top].HasMine)
-                                this.setState({ blocks: this.blocks });
+                                } while (boardState.blocks[left][top].HasMine)
+                                this.setState({ blocks: boardState.blocks });
                                 this.handleBlockClick(left, top);
                         }
                 } else {
                         this.isAnyBlockClicked = true;
-                        blocksStates[left][top].MarkedState = 0;
-                        this.setBlockValues(left, top, blocksStates);
+                        boardState.blocks[left][top].MarkedState = 0;
+                        this.setBlockValues(left, top, boardState.blocks);
                 }
-                this.setState({ blocks: blocksStates });
+                this.setState({ blocks: boardState.blocks });
 
 
         }
 
         pushBlock(blocks: BlockPointer[], left: number, top: number) {
-                if (!this.blocks[left][top].IsClicked) {
+                if (!this.boardState.blocks[left][top].IsClicked) {
                         blocks.push({ Position: { X: left, Y: top }, Value: this.mines[left][top] });
                 }
         }
@@ -155,7 +163,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
         handleRightClick(left, top) {
                 if (!this.isMineClicked) {
-                        let blocksStates = this.blocks;
+                        let blocksStates = this.boardState.blocks;
                         if (blocksStates[left][top].MarkedState == MineType.Large) {
                                 blocksStates[left][top].MarkedState = 0;
                         } else {
@@ -168,7 +176,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
         checkIfLevelIsSolved(): boolean {
                 let mismatch = false;
-                for (let row of this.blocks) {
+                for (let row of this.boardState.blocks) {
                         for (let block of row) {
                                 if (block.HasMine && block.MarkedState != block.Mine) {
                                         mismatch = true;
@@ -199,12 +207,12 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 let puzzle = [];
 
                 //Add blocks
-                for (let row of this.blocks) {
+                for (let row of this.boardState.blocks) {
                         for (let block of row) {
                                 puzzle.push(<Block
                                         Left={block.Left}
                                         Top={block.Top}
-                                        BlockSize={80}
+                                        BlockSize={this.boardState.blockSize}
                                         onClick={() => this.handleBlockClick(block.Left, block.Top)}
                                         onContextMenu={() => this.handleRightClick(block.Left, block.Top)}
                                         Value={block.Value}
@@ -223,7 +231,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                                 setTimeout(() => {
                                         alert("Congratulations on solving the level.");
                                         this.loadLevel();
-                                        this.setState({ blocks: this.blocks });
+                                        this.setState({ blocks: this.boardState.blocks });
                                 }, 200);
                         }
 
@@ -232,10 +240,10 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
                 if (this.isMineClicked) {
                         setTimeout(() => {
-                                let playAgain =window.confirm("You clicked on a mine. Play again?");
+                                let playAgain = window.confirm("You clicked on a mine. Play again?");
                                 if (playAgain) {
                                         this.loadLevel();
-                                        this.setState({ blocks: this.blocks });
+                                        this.setState({ blocks: this.boardState.blocks });
                                 }
                         }, 200);
                 }
@@ -246,6 +254,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
                 return (
                         <div className="board" >
+                                <input type="text" name="name" onChange={(e)=> this.test(e.target.value) }/>
                                 <div className="frame" onContextMenu={(e) => e.preventDefault()}>
                                         <div className="puzzle">
                                                 {puzzle}
@@ -255,5 +264,9 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 );
         }
 
+        test(e:string){
+                let newState= Object.assign(this.boardState,{blockSize: Number(e)});
+                this.setState(newState);
+        }
 
 }
