@@ -23,7 +23,6 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 super(props)
                 this.boardState = new BoardState();
 
-
                 this.loadLevel();
 
                 this.puzzleRef = React.createRef();
@@ -34,6 +33,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
         loadLevel() {
                 this.isMineClicked = false;
+                this.isAnyBlockClicked = false;
                 this.initializeMines();
                 //Mark mines
                 this.AddMines(this.props.smallMinesCount, MineType.Small);
@@ -258,17 +258,19 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
         componentDidMount() {
                 window.addEventListener("resize", this.updateDimensions);
-               this.updateDimensions();
+                this.updateDimensions();
         }
 
-        updateDimensions () {
+        updateDimensions() {
                 //set frame width
-                this.boardState.frameSize= this.frameRef.current.offsetHeight * 1000 / 1048;
+                this.boardState.frameSize = this.frameRef.current.offsetHeight * 1000 / 1048;
 
                 //Set block size
                 this.boardState.blockSize = this.calculateBlockSize();
+
+                //Assign new state
                 let newState = Object.assign(this.boardState, { blockSize: this.boardState.blockSize });
-                this.setState(newState); 
+                this.setState(newState);
         }
 
         render() {
@@ -282,7 +284,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                         <div className="board" >
                                 <div className="frame" style={frameStyle} ref={this.frameRef} onContextMenu={(e) => e.preventDefault()}>
                                         <div className="puzzle" ref={this.puzzleRef}>
-                                                {puzzle}
+                                                        {puzzle}
                                         </div>
                                 </div>
                         </div>
