@@ -44,7 +44,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         }
 
         calculateBlockSize(): number {
-                return (this.boardState.frameSize) / this.props.levelWidth * 0.8;
+                return (this.boardState.frameSize) / this.props.levelWidth * 0.837;
         }
 
 
