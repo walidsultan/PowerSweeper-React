@@ -263,14 +263,16 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
         updateDimensions() {
                 //set frame width
-                this.boardState.frameSize = this.frameRef.current.offsetHeight * 1000 / 1048;
+                if (this.frameRef.current != null) {
+                        this.boardState.frameSize = this.frameRef.current.offsetHeight * 1000 / 1048;
 
-                //Set block size
-                this.boardState.blockSize = this.calculateBlockSize();
+                        //Set block size
+                        this.boardState.blockSize = this.calculateBlockSize();
 
-                //Assign new state
-                let newState = Object.assign(this.boardState, { blockSize: this.boardState.blockSize });
-                this.setState(newState);
+                        //Assign new state
+                        let newState = Object.assign(this.boardState, { blockSize: this.boardState.blockSize });
+                        this.setState(newState);
+                }
         }
 
         render() {
@@ -284,7 +286,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                         <div className="board">
                                 <div className="frame" style={frameStyle} ref={this.frameRef} onContextMenu={(e) => e.preventDefault()}>
                                         <div className="puzzle" ref={this.puzzleRef}>
-                                                        {puzzle}
+                                                {puzzle}
                                         </div>
                                 </div>
                         </div>
