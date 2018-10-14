@@ -22,9 +22,9 @@ export default class LevelDifficulty extends React.Component<LevelDifficultyInte
                     </div>
 
                     <div className="buttons">
-                        <button>Easy</button>
-                        <button>Meduim</button>
-                        <button>Hard</button>
+                        <button onClick={()=>this.props.onEasyLevelClick()}>Easy</button>
+                        <button onClick={()=>this.props.onMediumLevelClick()}>Meduim</button>
+                        <button onClick={()=>this.props.onHardLevelClick()}>Hard</button>
                     </div>
                 </div>
             </div>

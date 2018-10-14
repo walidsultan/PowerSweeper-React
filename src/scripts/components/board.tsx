@@ -281,7 +281,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 };
 
                 return (
-                        <div className="board" >
+                        <div className="board">
                                 <div className="frame" style={frameStyle} ref={this.frameRef} onContextMenu={(e) => e.preventDefault()}>
                                         <div className="puzzle" ref={this.puzzleRef}>
                                                         {puzzle}
