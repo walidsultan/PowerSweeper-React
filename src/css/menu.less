@@ -12,9 +12,12 @@
             margin: auto;
             position: relative;
             font-size: 40px;
+            -webkit-transform: rotateX(38deg); /* Safari */
+            transform: rotateX(38deg);
             .item{
                 display: inline;
                 clear: both;
+                font-family: 'FunkyFont',cursive;
                 &:hover{
                     cursor: pointer;
                 }
@@ -28,3 +31,10 @@
             height: auto;
         }
 }
+
+@font-face {
+    font-family: 'FunkyFont';
+    src: url('src/fonts/FunkyFont.ttf'); /* IE9 Compat Modes */
+    src: url('src/fonts/FunkyFont.ttf?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('src/fonts/FunkyFont.ttf')  format('truetype'), /* Safari, Android, iOS */
+  }
