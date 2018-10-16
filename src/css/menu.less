@@ -2,7 +2,7 @@
     position: relative;
         margin: auto;
         width: 1600px;
-        height: 900px;
+        height: 99%;
         background-image: url(src/images/menu.png);
         background-size: 100% 100%;
         background-repeat: no-repeat;
@@ -15,16 +15,13 @@
             -webkit-transform: rotateX(38deg); /* Safari */
             transform: rotateX(38deg);
             .item{
-                display: inline;
+                margin-bottom: 10px;
                 clear: both;
                 font-family: 'FunkyFont',cursive;
                 &:hover{
                     cursor: pointer;
+                    color: rgb(11, 21, 158);
                 }
-                &::before {
-                    content: "\A";
-                    white-space: pre;
-                  }
             }
         }
         div{
