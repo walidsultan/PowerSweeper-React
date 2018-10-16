@@ -9,7 +9,7 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
 
     private menuRef: any;
     private fontRatio: number = 0.025;
-    private popupWidthRatio: number = 0.8;
+    private popupWidthRatio: number = 0.6;
 
     constructor(props) {
         super(props)
@@ -41,6 +41,7 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
                 onMediumLevelClick={() => this.props.onNewLevel(Difficulty.Medium)}
                 onHardLevelClick={() => this.props.onNewLevel(Difficulty.Hard)}
                 popupWidth={this.state.popupWidth}
+                title="Choose Level Difficulty"
             ></LevelDifficulty>
         </div>;
     }

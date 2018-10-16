@@ -1,8 +1,7 @@
-export default interface LevelDifficultyInterface {
-    showPopup:boolean;
-    onCloseClick: any;
+import PopupInterface from "./PopupInterface";
+
+export default interface LevelDifficultyInterface  extends PopupInterface{
     onEasyLevelClick:any;
     onMediumLevelClick:any;
     onHardLevelClick:any;
-    popupWidth:number;
 }
