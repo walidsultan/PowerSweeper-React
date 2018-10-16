@@ -11,11 +11,16 @@ export default class LevelDifficulty extends React.Component<LevelDifficultyInte
     }
     render() {
         let styles: CSSProperties = {
-            display: this.props.showPopup ? 'block' : 'none'
+            display: this.props.showPopup ? 'block' : 'none',
+        };
+
+        let contentStyle={
+            width:this.props.popupWidth,
+            marginTop: this.props.popupWidth * 0.25
         };
         return (
             <div className="levelDifficulty" style={styles}>
-                <div className="content">
+                <div className="content" style={contentStyle}> 
                     <div className="title"> 
                         <span>Choose Level Difficulty</span>
                         <span className="close" onClick={()=>this.props.onCloseClick()}>&times;</span>

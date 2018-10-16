@@ -9,6 +9,7 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
 
     private menuRef: any;
     private fontRatio: number = 0.025;
+    private popupWidthRatio: number = 0.8;
 
     constructor(props) {
         super(props)
@@ -23,12 +24,12 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
             width: this.state.menuWidth
         };
 
-        let itemsContainerStyle={
-            fontSize:this.state.fontSize
+        let itemsContainerStyle = {
+            fontSize: this.state.fontSize
         };
 
         return <div className="menu" ref={this.menuRef} style={menuStyle}>
-            <div className="itemsContainer" style={itemsContainerStyle}> 
+            <div className="itemsContainer" style={itemsContainerStyle}>
                 <div className="item" onClick={() => this.OnNewClick()}>New Game</div>
                 <div className="item">High Scores</div>
                 <div className="item">Instructions</div>
@@ -39,6 +40,7 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
                 onEasyLevelClick={() => this.props.onNewLevel(Difficulty.Easy)}
                 onMediumLevelClick={() => this.props.onNewLevel(Difficulty.Medium)}
                 onHardLevelClick={() => this.props.onNewLevel(Difficulty.Hard)}
+                popupWidth={this.state.popupWidth}
             ></LevelDifficulty>
         </div>;
     }
@@ -55,7 +57,8 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
         if (this.menuRef != null && this.menuRef.current != null) {
             let menuWidth = this.menuRef.current.offsetHeight * 16 / 9;
             let fontSize = menuWidth * this.fontRatio;
-            let newState = Object.assign(this.state, { menuWidth: menuWidth ,fontSize:fontSize});
+            let popupWidth = menuWidth * this.popupWidthRatio;
+            let newState = Object.assign(this.state, { menuWidth: menuWidth, fontSize: fontSize, popupWidth: popupWidth });
             this.setState(newState);
         }
     }

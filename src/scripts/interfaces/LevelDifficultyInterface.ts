@@ -4,4 +4,5 @@ export default interface LevelDifficultyInterface {
     onEasyLevelClick:any;
     onMediumLevelClick:any;
     onHardLevelClick:any;
+    popupWidth:number;
 }
