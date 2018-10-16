@@ -289,6 +289,10 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 this.setState(newState);
         }
 
+        onAlertCancel(){
+
+        }
+
         render() {
                 let puzzle = this.generatePuzzle(this.props.levelWidth, this.props.levelHeight);
 
@@ -297,7 +301,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 };
 
                 return (
-                        <div className="board">
+                        <div className="board noselect">
                                 <div className="frame" style={frameStyle} ref={this.frameRef} onContextMenu={(e) => e.preventDefault()}>
                                         <div className="puzzle" ref={this.puzzleRef}>
                                                 {puzzle}
@@ -308,7 +312,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                                         showPopup={this.boardState.alertState.showAlert}
                                         message={this.boardState.alertState.alertMessage}
                                         onOkClick={() => this.onAlertOkClick()}
-                                        onCancelClick={() => this.onAlertClose()}
+                                        onCancelClick={() => this.onAlertCancel()}
                                         onCloseClick={() => this.onAlertClose()}
                                         popupWidth={this.boardState.alertState.alertWidth}
                                 ></Alert>
