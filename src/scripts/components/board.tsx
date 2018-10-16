@@ -1,13 +1,13 @@
 import * as React from "react";
 import Block from './block';
 import BoardInterface from '../interfaces/BoardInterface';
-import BoardSettings from '../states/BoardState';
 import { MineType } from "../enums/mineType";
 import BoardState from "../states/BoardState";
 import BlockPointer from "../types/blockPointer";
-import BlockInterface from "../interfaces/BlockInterface";
 import BlockType from "../types/BlockType";
 import "../../css/board.less";
+import Alert from "./Alert";
+import AlertState from "../states/AlertState";
 
 
 export default class Board extends React.Component<BoardInterface, BoardState> {
@@ -22,6 +22,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         constructor(props) {
                 super(props)
                 this.boardState = new BoardState();
+                this.boardState.alertState = new AlertState();
 
                 this.loadLevel();
 
@@ -234,24 +235,24 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         componentDidUpdate() {
                 if (this.shouldCheckIfLevelIsSolved) {
                         if (this.checkIfLevelIsSolved()) {
-                                setTimeout(() => {
-                                        alert("Congratulations on solving the level.");
-                                        this.loadLevel();
-                                        this.setState({ blocks: this.boardState.blocks });
-                                }, 200);
+                                let newState = Object.assign(this.state, { alertState: { showAlert: true } });
+                                this.boardState.alertState.showAlert = true;
+                                this.boardState.alertState.alertTitle = "Puzzle Solved Successfully"
+                                this.boardState.alertState.alertMessage = "Congratulations! Play again?"
+                                this.setState(newState);
                         }
 
                         this.shouldCheckIfLevelIsSolved = false;
                 }
 
                 if (this.isMineClicked) {
-                        setTimeout(() => {
-                                let playAgain = window.confirm("You clicked on a mine. Play again?");
-                                if (playAgain) {
-                                        this.loadLevel();
-                                        this.setState({ blocks: this.boardState.blocks });
-                                }
-                        }, 200);
+
+                        let newState = Object.assign(this.state, { alertState: { showAlert: true } });
+                        this.boardState.alertState.showAlert = true;
+                        this.boardState.alertState.alertTitle = "Game Over"
+                        this.boardState.alertState.alertMessage = "You clicked on a mine. Play again?"
+                        this.setState(newState);
+                        this.isMineClicked=false;
                 }
 
         }
@@ -275,6 +276,19 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 }
         }
 
+        onAlertOkClick() {
+                let newState = Object.assign(this.state, { alertState: { showAlert: false } });
+                this.boardState.alertState.showAlert = false;
+                this.setState(newState);
+                this.loadLevel();
+        }
+
+        onAlertClose() {
+                let newState = Object.assign(this.state, { alertState: { showAlert: false } });
+                this.boardState.alertState.showAlert = false;
+                this.setState(newState);
+        }
+
         render() {
                 let puzzle = this.generatePuzzle(this.props.levelWidth, this.props.levelHeight);
 
@@ -289,6 +303,15 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                                                 {puzzle}
                                         </div>
                                 </div>
+
+                                <Alert title={this.boardState.alertState.alertTitle}
+                                        showPopup={this.boardState.alertState.showAlert}
+                                        message={this.boardState.alertState.alertMessage}
+                                        onOkClick={() => this.onAlertOkClick()}
+                                        onCancelClick={() => this.onAlertClose()}
+                                        onCloseClick={() => this.onAlertClose()}
+                                        popupWidth={this.boardState.alertState.alertWidth}
+                                ></Alert>
                         </div>
                 );
         }
