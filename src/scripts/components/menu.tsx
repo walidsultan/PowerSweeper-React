@@ -17,11 +17,13 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
         this.menuRef = React.createRef();
 
         this.updateDimensions = this.updateDimensions.bind(this);
+
     }
     render() {
 
         let menuStyle = {
-            width: this.state.menuWidth
+            width: this.state.menuWidth,
+            height:this.state.menuHeight
         };
 
         let itemsContainerStyle = {
@@ -56,10 +58,18 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
 
     updateDimensions() {
         if (this.menuRef != null && this.menuRef.current != null) {
-            let menuWidth = this.menuRef.current.offsetHeight * 16 / 9;
+            let menuHeight= window.innerHeight ;
+            let menuWidth = menuHeight * 16 / 9;
+
+            if(menuWidth>window.innerWidth){
+                menuWidth= window.innerWidth;
+                menuHeight= menuWidth * 9/16;
+            }
+
             let fontSize = menuWidth * this.fontRatio;
             let popupWidth = menuWidth * this.popupWidthRatio;
-            let newState = Object.assign(this.state, { menuWidth: menuWidth, fontSize: fontSize, popupWidth: popupWidth });
+
+            let newState = Object.assign(this.state, { menuWidth: menuWidth, fontSize: fontSize, popupWidth: popupWidth,menuHeight:menuHeight });
             this.setState(newState);
         }
     }
