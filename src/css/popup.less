@@ -63,7 +63,7 @@
 }
 
 
-@media screen and (max-width: 900px), screen and (max-height: 800px) {
+@media screen and (max-width: 640px), screen and (max-height: 700px) {
     .popup
     {
         .popupMain {
@@ -71,8 +71,25 @@
             margin: 0 !important;
             left: 9px;
             top: 8px;
-            width: 97.5% !important ;
             height: 94% ;
+            .title{
+                border: none;
+                background: none;
+                border-bottom: 1px solid #222;
+                border-radius: 0;
+                padding-bottom: 14px;
+                font-size: 22px;
+                .close{
+                    border: none;
+                    height: 32px;
+                    width: 30px;
+                    background: url(src/images/X_mark.png);
+                    text-indent: 100%;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    background-size: 35px 34px;
+                }
+            }
             div{
                 height: auto;
             }

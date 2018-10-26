@@ -15,7 +15,8 @@ export default class Popup extends React.Component<PopupInterface, {}> {
         };
 
         let contentStyle = {
-            width: this.props.popupWidth,
+            width:window.innerWidth>640 && window.innerHeight>700 ? this.props.popupWidth :(window.innerWidth-8) *.95,
+            left:(window.innerWidth-8) * 0.025,
             marginTop: this.props.popupWidth * 0.25
         };
         return (

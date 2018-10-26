@@ -1,7 +1,7 @@
 .menu{
     position: relative;
         margin: auto;
-        width: 1600px;
+      //  width: 1600px;
         height: 99%;
         background-image: url(src/images/menu.png);
         background-size: 100% 100%;
@@ -36,8 +36,18 @@
          url('src/fonts/FunkyFont.ttf')  format('truetype'), /* Safari, Android, iOS */
   }
 
-  @media screen and (max-width: 640px), screen and (max-height: 800px) {
+  @media screen and (max-width: 640px), screen and (max-height: 700px) {
     .menu{
+        background-image: url(src/images/PowerSweeper-Phone.png);
+        .itemsContainer{
+            top: 31%;
+            color: rgb(127, 175, 177) ;
+            .item{
+                &:hover{
+                    color:#fff;
+                }
+            }
+        }
         .popup{
             height:100%;
         }

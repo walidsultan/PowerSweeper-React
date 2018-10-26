@@ -8,7 +8,6 @@ import { Difficulty } from "../enums/difficulty";
 export default class Menu extends React.Component<MenuInterface, MenuState> {
 
     private menuRef: any;
-    private fontRatio: number = 0.025;
     private popupWidthRatio: number = 0.6;
 
     constructor(props) {
@@ -58,15 +57,22 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
 
     updateDimensions() {
         if (this.menuRef != null && this.menuRef.current != null) {
+            let scaleFactor=0.4618;
+            let fontRatio= 0.2;
+            if(window.innerWidth >640 && window.innerHeight >700){
+                fontRatio=0.025;
+                scaleFactor=16 / 9 ;
+            }
+
             let menuHeight= window.innerHeight ;
-            let menuWidth = menuHeight * 16 / 9;
+            let menuWidth = menuHeight * scaleFactor;
 
             if(menuWidth>window.innerWidth){
                 menuWidth= window.innerWidth;
-                menuHeight= menuWidth * 9/16;
+                menuHeight= menuWidth /scaleFactor;
             }
 
-            let fontSize = menuWidth * this.fontRatio;
+            let fontSize = menuWidth * fontRatio;
             let popupWidth = menuWidth * this.popupWidthRatio;
 
             let newState = Object.assign(this.state, { menuWidth: menuWidth, fontSize: fontSize, popupWidth: popupWidth,menuHeight:menuHeight });
