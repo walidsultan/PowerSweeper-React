@@ -36,6 +36,7 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
                 <div className="item">Instructions</div>
                 <div className="item">Credits</div>
             </div>
+            <div className="backgroundExtender"></div>
             <LevelDifficulty showPopup={this.state.showNewLevelPopup}
                 onCloseClick={() => this.OnLevelDifficultyCloseClick()}
                 onEasyLevelClick={() => this.props.onNewLevel(Difficulty.Easy)}

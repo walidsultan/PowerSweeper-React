@@ -42,11 +42,24 @@
         .itemsContainer{
             top: 31%;
             color: rgb(127, 175, 177) ;
+            z-index: 10;
+            -webkit-transform: translateZ(0px);
+            -webkit-transform: translate3d(0,0,0);
+            -webkit-perspective: 1000;
             .item{
                 &:hover{
                     color:#fff;
                 }
             }
+        }
+        .backgroundExtender{
+            background-color: #1027BD;
+            left: 0;
+            top: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
         .popup{
             height:100%;
