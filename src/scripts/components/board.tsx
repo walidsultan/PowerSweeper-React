@@ -44,8 +44,8 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 this.initializeValues();
         }
 
-        calculateBlockSize(): number {
-                return (this.boardState.frameSize) / this.props.levelWidth * 0.837;
+        calculateBlockSize(scaleFactor: number): number {
+                return (this.boardState.frameSize) / this.props.levelWidth * scaleFactor;
         }
 
 
@@ -252,7 +252,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                         this.boardState.alertState.alertTitle = "Game Over"
                         this.boardState.alertState.alertMessage = "You clicked on a mine. Play again?"
                         this.setState(newState);
-                        this.isMineClicked=false;
+                        this.isMineClicked = false;
                 }
 
         }
@@ -265,10 +265,23 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         updateDimensions() {
                 //set frame width
                 if (this.frameRef.current != null) {
-                        this.boardState.frameSize = this.frameRef.current.offsetHeight * 1000 / 1048;
+                        let frameScaleFactor = 1000 / 1048;
+                        let puzzleScaleFactor = 0.837;
+
+                        if (window.innerWidth <= 640 || window.innerHeight <= 700) {
+                                frameScaleFactor = 1;
+                                puzzleScaleFactor = 1;
+                                this.boardState.frameSize = Math.min(window.innerWidth,window.innerHeight);
+                        } else {
+                                this.boardState.frameSize = this.frameRef.current.offsetHeight * frameScaleFactor;
+                        }
+
+                        if (this.boardState.frameSize > window.innerWidth) {
+                                this.boardState.frameSize = window.innerWidth;
+                        }
 
                         //Set block size
-                        this.boardState.blockSize = this.calculateBlockSize();
+                        this.boardState.blockSize = this.calculateBlockSize(puzzleScaleFactor);
 
                         //Assign new state
                         let newState = Object.assign(this.boardState, { blockSize: this.boardState.blockSize });
@@ -289,7 +302,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 this.setState(newState);
         }
 
-        onAlertCancel(){
+        onAlertCancel() {
 
         }
 
@@ -298,6 +311,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
                 let frameStyle = {
                         width: this.boardState.frameSize,
+                        height: this.boardState.frameSize
                 };
 
                 return (
