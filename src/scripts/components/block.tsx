@@ -52,6 +52,7 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
     if (e != null) {
       e.preventDefault();
     }
+    window.navigator.vibrate(100);
     if (!this.props.IsClicked) {
       this.props.onContextMenu();
     }
