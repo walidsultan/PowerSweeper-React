@@ -17,7 +17,6 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         private shouldCheckIfLevelIsSolved = false;
         private isMineClicked: boolean = false;
         private puzzleRef: any;
-        private frameRef: any;
 
         constructor(props) {
                 super(props)
@@ -27,7 +26,6 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                 this.loadLevel();
 
                 this.puzzleRef = React.createRef();
-                this.frameRef = React.createRef();
 
                 this.updateDimensions = this.updateDimensions.bind(this);
         }
@@ -264,29 +262,27 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
         updateDimensions() {
                 //set frame width
-                if (this.frameRef.current != null) {
-                        let frameScaleFactor = 1000 / 1048;
-                        let puzzleScaleFactor = 0.837;
+                let frameScaleFactor = 0.9065;   //1000 / 1048 * .95;
+                let puzzleScaleFactor = 0.837;
 
-                        if (window.innerWidth <= 640 || window.innerHeight <= 700) {
-                                frameScaleFactor = 1;
-                                puzzleScaleFactor = 1;
-                                this.boardState.frameSize = Math.min(window.innerWidth,window.innerHeight);
-                        } else {
-                                this.boardState.frameSize = this.frameRef.current.offsetHeight * frameScaleFactor;
-                        }
-
-                        if (this.boardState.frameSize > window.innerWidth) {
-                                this.boardState.frameSize = window.innerWidth;
-                        }
-
-                        //Set block size
-                        this.boardState.blockSize = this.calculateBlockSize(puzzleScaleFactor);
-
-                        //Assign new state
-                        let newState = Object.assign(this.boardState, { blockSize: this.boardState.blockSize });
-                        this.setState(newState);
+                if (this.isMobileDimensions()) {
+                        frameScaleFactor = 1;
+                        puzzleScaleFactor = 1;
+                        this.boardState.frameSize = Math.min(window.innerWidth, window.innerHeight);
+                } else {
+                        this.boardState.frameSize = window.innerHeight * frameScaleFactor ;
                 }
+
+                if (this.boardState.frameSize > window.innerWidth) {
+                        this.boardState.frameSize = window.innerWidth;
+                }
+
+                //Set block size
+                this.boardState.blockSize = this.calculateBlockSize(puzzleScaleFactor);
+
+                //Assign new state
+                let newState = Object.assign(this.boardState, { blockSize: this.boardState.blockSize });
+                this.setState(newState);
         }
 
         onAlertOkClick() {
@@ -306,21 +302,33 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
 
         }
 
+        isMobileDimensions() {
+                return (window.innerWidth <= 640 || window.innerHeight <= 700);
+        }
+
         render() {
                 let puzzle = this.generatePuzzle(this.props.levelWidth, this.props.levelHeight);
 
                 let frameStyle = {
-                        width: this.boardState.frameSize,
-                        height: this.boardState.frameSize
+                        width: this.boardState.frameSize
                 };
+
+                let puzzleStyle={};
+                if (this.isMobileDimensions()) {
+                        frameStyle = Object.assign(frameStyle, { height: this.boardState.frameSize });
+                        puzzleStyle = Object.assign(puzzleStyle, {top: (window.innerHeight-this.boardState.frameSize)/2 });                      
+                }
+
 
                 return (
                         <div className="board noselect">
-                                <div className="frame" style={frameStyle} ref={this.frameRef} onContextMenu={(e) => e.preventDefault()}>
-                                        <div className="puzzle" ref={this.puzzleRef}>
+                                <div className="frame" style={frameStyle} onContextMenu={(e) => e.preventDefault()}>
+                                        <div className="puzzle" ref={this.puzzleRef} style={puzzleStyle}>
                                                 {puzzle}
                                         </div>
+
                                 </div>
+                                 <div className="backgroundExtender"></div>
 
                                 <Alert title={this.boardState.alertState.alertTitle}
                                         showPopup={this.boardState.alertState.showAlert}

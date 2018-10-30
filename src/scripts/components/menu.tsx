@@ -48,9 +48,6 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
         </div>;
     }
 
-    componentDidUpdate() {
-        //this.updateDimensions();
-    }
     componentDidMount() {
         window.addEventListener("resize", this.updateDimensions);
         this.updateDimensions();

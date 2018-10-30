@@ -9,7 +9,8 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
 
   private blockShrinkRatio: number = 0.8525;
   private fontRatio: number = 0.3;
-  private blockOffsetRatio: number = 12;
+  private blockTimer: any;
+
   constructor(props) {
     super(props)
 
@@ -33,18 +34,24 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
         style={styles}
         onClick={() => this.onLeftClick()}
         onContextMenu={(e) => this.onRightClick(e)}
-        onTouchStart={(e)=>this.onTouchStart(e)}
+        onTouchStart={(e) => this.onTouchStart(e)}
+        onTouchEnd={(e) => this.onTouchEnd(e)}
       >{(this.props.IsClicked && this.props.Value > 0 && <div>{this.props.Value}</div>)}</div>
     );
   }
 
-  onTouchStart(e){
-    e.preventDefault();
-    setTimeout(()=>{alert('Touch 500ms')},500);
+  onTouchStart(e) {
+    this.blockTimer = setTimeout(() => { this.onRightClick(null) }, 1500);
+  }
+
+  onTouchEnd(e) {
+    clearTimeout(this.blockTimer);
   }
 
   onRightClick(e) {
-    e.preventDefault();
+    if (e != null) {
+      e.preventDefault();
+    }
     if (!this.props.IsClicked) {
       this.props.onContextMenu();
     }
