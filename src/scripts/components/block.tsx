@@ -10,7 +10,8 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
   private blockShrinkRatio: number = 0.8525;
   private fontRatio: number = 0.3;
   private blockTimer: any;
-
+  private isBlockTouched: boolean;
+  private isChrome:boolean;
   constructor(props) {
     super(props)
 
@@ -27,6 +28,7 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
       fontSize: this.props.BlockSize * this.fontRatio
     };
 
+    this.isChrome= this.isChromeBrowser();
     let classNames: [string] = this.getClassNames();
     return (
       <div
@@ -40,21 +42,37 @@ export default class Block extends React.Component<BlockInterface, BlockState> {
     );
   }
 
+  isChromeBrowser(){
+    return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+  }
   onTouchStart(e) {
-    this.blockTimer = setTimeout(() => { this.onRightClick(null) }, 1500);
+    if (!this.isBlockTouched || !this.isChrome) {
+      this.isBlockTouched = true;
+      this.blockTimer = setTimeout(() => { this.onRightClick(null) }, 500);
+    } 
   }
 
   onTouchEnd(e) {
     clearTimeout(this.blockTimer);
+    this.isBlockTouched = false;
   }
 
   onRightClick(e) {
+    if (e != null && this.isBlockTouched) {
+      return;
+    }
+
     if (e != null) {
       e.preventDefault();
     }
-    window.navigator.vibrate(100);
-    if (!this.props.IsClicked) {
-      this.props.onContextMenu();
+    if (e != null || this.isBlockTouched) {
+      window.navigator.vibrate(100);
+      if (!this.props.IsClicked) {
+        this.props.onContextMenu();
+      }
+      if(this.isBlockTouched && this.isChrome){
+         this.blockTimer = setTimeout(() => { this.onRightClick(null) }, 500);
+      }
     }
   }
 

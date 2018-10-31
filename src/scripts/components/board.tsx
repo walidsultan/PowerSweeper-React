@@ -94,6 +94,7 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
                                         }
                                 }
                                 boardState.blocks[left][top].IsClicked = true;
+                                window.navigator.vibrate([30,50,100,60,40,140]);
 
                         } else {
                                 //make sure the first click is not a mine
