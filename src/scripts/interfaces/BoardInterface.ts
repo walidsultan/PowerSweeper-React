@@ -4,4 +4,5 @@ export default interface BoardInterface {
     smallMinesCount: number ;
     mediumMinesCount: number ;
     bigMinesCount: number;
+    onRedirect:any;
 }

@@ -8,6 +8,7 @@ import BlockType from "../types/BlockType";
 import "../../css/board.less";
 import Alert from "./Alert";
 import AlertState from "../states/AlertState";
+import { PageView } from "../enums/pageView";
 
 
 export default class Board extends React.Component<BoardInterface, BoardState> {
@@ -294,13 +295,11 @@ export default class Board extends React.Component<BoardInterface, BoardState> {
         }
 
         onAlertClose() {
-                let newState = Object.assign(this.state, { alertState: { showAlert: false } });
-                this.boardState.alertState.showAlert = false;
-                this.setState(newState);
+                this.props.onRedirect(PageView.Menu);
         }
 
         onAlertCancel() {
-
+                this.props.onRedirect(PageView.Menu);
         }
 
         isMobileDimensions() {
