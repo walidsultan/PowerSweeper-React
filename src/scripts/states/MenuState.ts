@@ -6,4 +6,6 @@ export default class MenuState {
     menuHeight:number;
     fontSize:number;
     popupWidth:number;
+    showInstructionsPopup:boolean;
+    showCreditsPopup:boolean;
 }

@@ -22,6 +22,14 @@
                     cursor: pointer;
                     color: rgb(11, 21, 158);
                 }
+
+                &.disabled{
+                    color:#999;
+                    &:hover{
+                        color:#999;
+                        cursor: default;
+                    }
+                }
             }
         }
         div{
@@ -49,6 +57,12 @@
             .item{
                 &:hover{
                     color:#fff;
+                }
+                &.disabled{
+                    color:#111;
+                    &:hover{
+                        color:#111;
+                    }
                 }
             }
         }

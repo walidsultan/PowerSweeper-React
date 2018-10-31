@@ -4,6 +4,7 @@ import MenuInterface from "../interfaces/MenuInterface";
 import LevelDifficulty from "./LevelDifficulty";
 import MenuState from "../states/MenuState";
 import { Difficulty } from "../enums/difficulty";
+import MenuContent from "./MenuContent";
 
 export default class Menu extends React.Component<MenuInterface, MenuState> {
 
@@ -22,7 +23,7 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
 
         let menuStyle = {
             width: this.state.menuWidth,
-            height:this.state.menuHeight
+            height: this.state.menuHeight
         };
 
         let itemsContainerStyle = {
@@ -32,9 +33,9 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
         return <div className="menu" ref={this.menuRef} style={menuStyle}>
             <div className="itemsContainer" style={itemsContainerStyle}>
                 <div className="item" onClick={() => this.OnNewClick()}>New Game</div>
-                <div className="item">High Scores</div>
-                <div className="item">Instructions</div>
-                <div className="item">Credits</div>
+                <div className="item disabled">High Scores</div>
+                <div className="item" onClick={() => this.OnInstructionsClick()}>Instructions</div>
+                <div className="item" onClick={() => this.OnCreditsClick()}>Credits</div>
             </div>
             <div className="backgroundExtender"></div>
             <LevelDifficulty showPopup={this.state.showNewLevelPopup}
@@ -43,9 +44,66 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
                 onMediumLevelClick={() => this.props.onNewLevel(Difficulty.Medium)}
                 onHardLevelClick={() => this.props.onNewLevel(Difficulty.Hard)}
                 popupWidth={this.state.popupWidth}
-                title="Choose Level Difficulty"
+                title="Choose Difficulty"
             ></LevelDifficulty>
+            <MenuContent
+                onCloseClick={() => this.onMenuContentCloseClick()}
+                title="Instructions"
+                showPopup={this.state.showInstructionsPopup}
+                popupWidth={this.state.popupWidth}
+            >
+                <div className="desktopInstructions">
+                    <ul>
+                        <li>Right click on any block to mark a mine.</li>
+                        <li>There are three types of mines, each type has a different power.</li>
+                        <li>To swtich to a different mine, right click on the same block multiple times.</li>
+                        <li>Small=1 Medium=2 Large=3</li>
+                    </ul>
+                </div>
+                <div className="phoneInstructions">
+                    <ul>
+                        <li>Tap and hold on any block to mark a mine.</li>
+                        <li>There are three types of mines, each type has a different power.</li>
+                        <li>To swtich to a different mine, tab and hold on the same block multiple times.</li>
+                        <li>Small=1 Medium=2 Large=3</li>
+                    </ul>
+                </div>
+            </MenuContent>
+
+            <MenuContent
+                onCloseClick={() => this.onMenuContentCloseClick()}
+                title="Credits"
+                showPopup={this.state.showCreditsPopup}
+                popupWidth={this.state.popupWidth}
+            >
+            <div className="creditsContainer">
+                <div className="creditsHeader">
+                Programming
+                </div>
+                <div className="creditsTitle">
+                    Walid Sultan
+                </div>
+                <div  className="creditsHeader">
+                Graphic Design
+                </div>
+                <div className="creditsTitle">
+                    Shady Sultan
+                </div>
+             </div>
+            </MenuContent>
         </div>;
+    }
+
+    onMenuContentCloseClick() {
+        this.setState({ showCreditsPopup: false, showInstructionsPopup: false });
+    }
+
+    OnInstructionsClick() {
+        this.setState({ showInstructionsPopup: true });
+    }
+
+    OnCreditsClick() {
+        this.setState({ showCreditsPopup: true });
     }
 
     componentDidMount() {
@@ -55,25 +113,25 @@ export default class Menu extends React.Component<MenuInterface, MenuState> {
 
     updateDimensions() {
         if (this.menuRef != null && this.menuRef.current != null) {
-            let scaleFactor=0.4618;
-            let fontRatio= 0.2;
-            if(window.innerWidth >640 && window.innerHeight >700){
-                fontRatio=0.025;
-                scaleFactor=16 / 9 ;
+            let scaleFactor = 0.4618;
+            let fontRatio = 0.2;
+            if (window.innerWidth > 640 && window.innerHeight > 700) {
+                fontRatio = 0.025;
+                scaleFactor = 16 / 9;
             }
 
-            let menuHeight= window.innerHeight ;
+            let menuHeight = window.innerHeight;
             let menuWidth = menuHeight * scaleFactor;
 
-            if(menuWidth>window.innerWidth){
-                menuWidth= window.innerWidth;
-                menuHeight= menuWidth /scaleFactor;
+            if (menuWidth > window.innerWidth) {
+                menuWidth = window.innerWidth;
+                menuHeight = menuWidth / scaleFactor;
             }
 
             let fontSize = menuWidth * fontRatio;
             let popupWidth = menuWidth * this.popupWidthRatio;
 
-            let newState = Object.assign(this.state, { menuWidth: menuWidth, fontSize: fontSize, popupWidth: popupWidth,menuHeight:menuHeight });
+            let newState = Object.assign(this.state, { menuWidth: menuWidth, fontSize: fontSize, popupWidth: popupWidth, menuHeight: menuHeight });
             this.setState(newState);
         }
     }
